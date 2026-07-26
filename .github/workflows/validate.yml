@@ -1,0 +1,29 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install validators
+        run: sudo apt-get update && sudo apt-get install -y shellcheck libxml2-utils
+
+      - name: Test script behavior
+        run: bash tests/test-scripts.sh
+
+      - name: Lint shell scripts
+        run: shellcheck scripts/*.sh tests/*.sh
+
+      - name: Validate Compose configuration
+        run: docker compose --env-file .env.example config --quiet
+
+      - name: Validate LaunchAgent templates
+        run: xmllint --noout scripts/launchd/*.plist.template

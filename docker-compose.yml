@@ -1,0 +1,73 @@
+services:
+  neo4j:
+    image: neo4j:5.26.0
+    container_name: neo4j-graphiti
+    restart: unless-stopped
+    # Give the JVM up to 120s to checkpoint and release the store lock on stop /
+    # restart. Without this the effective grace was ~1s (StopTimeout=1), which
+    # SIGKILLs the JVM mid-checkpoint and can leave a stale database_lock.
+    stop_grace_period: 120s
+    labels:
+      # Watched by the autoheal sidecar below: if this container's healthcheck
+      # reports 'unhealthy' (e.g. graph DB wedged on a stale lock while bolt is up),
+      # autoheal restarts it — restart:unless-stopped does NOT act on unhealthy.
+      - "autoheal=true"
+    ports:
+      # Loopback only — never expose to LAN. Use SSH tunnels for remote access.
+      - "127.0.0.1:7474:7474"   # HTTP / Neo4j Browser
+      - "127.0.0.1:7687:7687"   # Bolt
+    environment:
+      NEO4J_AUTH: "neo4j/${NEO4J_PASSWORD}"
+      # Healthcheck reads this (must NOT be NEO4J_-prefixed — Neo4j's entrypoint
+      # turns any NEO4J_* env var into a neo4j.conf setting, which would fail
+      # strict config validation).
+      HEALTH_PASSWORD: "${NEO4J_PASSWORD}"
+      # Memory: 2G heap + 2G page cache. Bump if dataset grows past ~5GB on disk.
+      NEO4J_server_memory_heap_initial__size: "2G"
+      NEO4J_server_memory_heap_max__size: "2G"
+      NEO4J_server_memory_pagecache_size: "2G"
+      # APOC — graphiti's setup script enables it; we keep it on for parity.
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_procedures_unrestricted: "apoc.*"
+      NEO4J_dbms_security_procedures_allowlist: "apoc.*"
+    volumes:
+      - neo4j_graphiti_data:/data
+      - neo4j_graphiti_logs:/logs
+    healthcheck:
+      test: ["CMD-SHELL", "cypher-shell -u neo4j -p $$HEALTH_PASSWORD 'RETURN 1' >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Safety net for "Up but graph-DB-down" wedges (incident 2026-06-15). Docker's
+  # restart:unless-stopped only restarts EXITED containers, never 'unhealthy' ones,
+  # so a wedged neo4j stays broken until manual intervention. autoheal watches
+  # containers labelled autoheal=true and restarts them when unhealthy (~1 cycle).
+  autoheal:
+    # Pin the documented stable release and its multi-platform manifest. The
+    # upstream `latest` image is rebuilt daily and has caused runtime crashes.
+    image: willfarrell/autoheal:1.1.0@sha256:794dfad2bd562984a6baaa7e4baa3ba1d211fc452f036dc2079a801a9a71a053
+    container_name: neo4j-graphiti-autoheal
+    restart: unless-stopped
+    network_mode: none
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: autoheal    # only restart containers labelled autoheal=true
+      AUTOHEAL_INTERVAL: "15"               # health poll cadence (seconds)
+      AUTOHEAL_START_PERIOD: "120"          # ignore a container's first 120s after (re)start
+      AUTOHEAL_DEFAULT_STOP_TIMEOUT: "120"  # graceful stop window when restarting (matches stop_grace_period)
+      AUTOHEAL_ONLY_MONITOR_RUNNING: "true"
+    volumes:
+      # Docker socket access is powerful even when the mount is read-only.
+      # Keep this sidecar pinned, isolated, and limited to the autoheal label.
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+volumes:
+  # The explicit name reuses an existing pre-compose volume when present and
+  # creates it on a clean installation. Do not remove it without a backup.
+  neo4j_graphiti_data:
+    name: neo4j_graphiti_data
+  neo4j_graphiti_logs:

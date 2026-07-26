@@ -1,5 +1,9 @@
 # Graphiti Neo4j Ops
 
+[![Validate](https://github.com/abouchard11/graphiti-neo4j-ops/actions/workflows/validate.yml/badge.svg)](https://github.com/abouchard11/graphiti-neo4j-ops/actions/workflows/validate.yml)
+[![Release](https://img.shields.io/github/v/release/abouchard11/graphiti-neo4j-ops)](https://github.com/abouchard11/graphiti-neo4j-ops/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A production-minded local Neo4j runtime for
 [Graphiti](https://github.com/getzep/graphiti): loopback-only networking,
 health-driven recovery, safe Community Edition backups, and optional macOS

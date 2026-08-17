@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "graphiti-neo4j-ops"
+abstract: >-
+  Hardened local Neo4j operations for Graphiti: health recovery, safe backups, and macOS
+  launchd automation.
+authors:
+  - family-names: "Bouchard"
+    given-names: "Alex"
+    email: "alex@midnightdev.dev"
+    affiliation: "MidnightDev"
+    website: "https://midnightdev.dev"
+type: software
+repository-code: "https://github.com/abouchard11/graphiti-neo4j-ops"
+url: "https://github.com/abouchard11/graphiti-neo4j-ops"
+license: MIT
+version: 0.1.0
+date-released: 2026-07-25
+keywords:
+  - "neo4j"
+  - "graphiti"
+  - "knowledge-graph"
+  - "operations"
+  - "backup"
+  - "macos"

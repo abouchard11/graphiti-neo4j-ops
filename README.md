@@ -145,3 +145,11 @@ CI also runs ShellCheck across every shell script.
 ## License
 
 MIT
+
+## Related
+
+This repo is the **entity-store ops** lane. Agent memory that lands here is supposed to be a verified increment, not a chat dump.
+
+- [llm-safety-gate](https://github.com/abouchard11/llm-safety-gate) — fail-closed discipline at the classifier layer
+- [yapoleons-court](https://github.com/abouchard11/yapoleons-court) — shipped product where the model cannot own the score
+- Upstream: [getzep/graphiti](https://github.com/getzep/graphiti)

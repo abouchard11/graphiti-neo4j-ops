@@ -14,7 +14,6 @@ authors:
 type: software
 repository-code: "https://github.com/abouchard11/graphiti-neo4j-ops"
 url: "https://github.com/abouchard11/graphiti-neo4j-ops"
-license: MIT
 version: 0.1.0
 date-released: 2026-07-25
 keywords:

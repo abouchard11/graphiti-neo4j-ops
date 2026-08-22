@@ -2,8 +2,6 @@
 
 [![Validate](https://github.com/abouchard11/graphiti-neo4j-ops/actions/workflows/validate.yml/badge.svg)](https://github.com/abouchard11/graphiti-neo4j-ops/actions/workflows/validate.yml)
 [![Release](https://img.shields.io/github/v/release/abouchard11/graphiti-neo4j-ops)](https://github.com/abouchard11/graphiti-neo4j-ops/releases/latest)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
 A production-minded local Neo4j runtime for
 [Graphiti](https://github.com/getzep/graphiti): loopback-only networking,
 health-driven recovery, safe Community Edition backups, and optional macOS
@@ -142,10 +140,9 @@ xmllint --noout scripts/launchd/*.plist.template
 
 CI also runs ShellCheck across every shell script.
 
-## License
+## Rights
 
-MIT
-
+**Proprietary — all rights reserved. No license is granted.** See [LICENSE](LICENSE).
 ## Related
 
 This repo is the **entity-store ops** lane. Agent memory that lands here is supposed to be a verified increment, not a chat dump.

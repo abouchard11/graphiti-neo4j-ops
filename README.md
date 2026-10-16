@@ -140,9 +140,9 @@ xmllint --noout scripts/launchd/*.plist.template
 
 CI also runs ShellCheck across every shell script.
 
-## Rights
+## License
 
-**Proprietary — all rights reserved. No license is granted.** See [LICENSE](LICENSE).
+Apache License 2.0. See [LICENSE](LICENSE). Copyright 2026 Alex Bouchard.
 ## Related
 
 This repo is the **entity-store ops** lane. Agent memory that lands here is supposed to be a verified increment, not a chat dump.

@@ -21,7 +21,7 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.23502544"
     description: "Concept DOI: resolves to the latest archived release on Zenodo"
-date-released: 2026-07-25
+date-released: 2026-10-20
 keywords:
   - "neo4j"
   - "graphiti"

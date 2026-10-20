@@ -1,6 +1,7 @@
 # Graphiti Neo4j Ops
 
 [![Validate](https://github.com/abouchard11/graphiti-neo4j-ops/actions/workflows/validate.yml/badge.svg)](https://github.com/abouchard11/graphiti-neo4j-ops/actions/workflows/validate.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23502544.svg)](https://doi.org/10.5281/zenodo.23502544)
 [![Release](https://img.shields.io/github/v/release/abouchard11/graphiti-neo4j-ops)](https://github.com/abouchard11/graphiti-neo4j-ops/releases/latest)
 A production-minded local Neo4j runtime for
 [Graphiti](https://github.com/getzep/graphiti): loopback-only networking,
